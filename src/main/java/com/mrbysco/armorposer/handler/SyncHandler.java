@@ -2,6 +2,7 @@ package com.mrbysco.armorposer.handler;
 
 import com.mrbysco.armorposer.ArmorPoserPlugin;
 import io.netty.buffer.Unpooled;
+import net.kyori.adventure.text.Component;
 import net.minecraft.core.Rotations;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -83,7 +84,15 @@ public class SyncHandler implements PluginMessageListener {
 				double scale = tag.getDoubleOr("Scale", 0.0D);
 				AttributeInstance attribute = armorStand.getAttribute(Attribute.SCALE);
 				if (attribute != null && scale > 0) {
-					attribute.setBaseValue(scale);
+					double minScale = ArmorPoserPlugin.minArmorStandScale;
+					double maxScale = ArmorPoserPlugin.maxArmorStandScale;
+					if (minScale > 0 && scale < minScale) {
+						player.sendMessage(Component.text("[ArmorPoser] Scale is below minimum: " + minScale));
+					} else if (maxScale > 0 && scale > maxScale) {
+						player.sendMessage(Component.text("[ArmorPoser] Scale is above maximum: " + maxScale));
+					} else {
+						attribute.setBaseValue(scale);
+					}
 				}
 			}
 
