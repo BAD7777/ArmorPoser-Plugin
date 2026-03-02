@@ -5,3 +5,20 @@ api-version: '1.21.11'
 author: "Mrbysco"
 description: "A paper plugin that allows clients to use Armor Poser to pose armor stands"
 website: "https://www.curseforge.com/minecraft/bukkit-plugins/armor-poser-plugin"
+commands:
+  armorposer:
+    description: ArmorPoser admin command
+    usage: /armorposer reload
+permissions:
+  armorposer.use:
+    description: Allows a player to open the GUI
+    default: true
+  armorposer.resize:
+    description: Allows a player to resize the Armor Stand
+    default: op
+  armorposer.lock:
+    description: Allows a player to lock Armor Stands
+    default: op
+  armorposer.reload:
+    description: Allows a player to reload ArmorPoser config
+    default: op
