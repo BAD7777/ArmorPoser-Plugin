@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import net.kyori.adventure.text.Component;
 
 import java.util.List;
 
@@ -24,6 +25,8 @@ public class EventHandlers implements Listener {
 		Entity entity = event.getRightClicked();
 		if (entity instanceof ArmorStand armorStand && player.isSneaking() && canUseGUI(player)) {
 			if (event.getHand() == EquipmentSlot.HAND) {
+				player.sendMessage(Component.text(getScaleInfoMessage()));
+
 				ByteArrayDataOutput lockedOut = ByteStreams.newDataOutput();
 				lockedOut.writeInt(armorStand.getEntityId());
 				lockedOut.writeBoolean(armorStand.isInvulnerable());
@@ -45,6 +48,12 @@ public class EventHandlers implements Listener {
 	private boolean canUseGUI(Player player) {
 		if (!ArmorPoserPlugin.enableConfigGui) return false;
 		return ArmorPoserPlugin.canUse(player);
+	}
+
+	private String getScaleInfoMessage() {
+		double minScale = ArmorPoserPlugin.minArmorStandScale;
+		double maxScale = ArmorPoserPlugin.maxArmorStandScale;
+		return "[ArmorPoser] Scale limits: " + minScale + " - " + maxScale;
 	}
 
 }
